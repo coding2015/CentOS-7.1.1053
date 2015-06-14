@@ -1,7 +1,7 @@
 problem detail:
 	slight touch didn't always work as press touch
-  it sh0wed a click-menu whenever I slightly touched on the window tabs
+  	it sh0wed a click-menu whenever I slightly touched on the window tabs
   
 sholved:
-  reset touchpad
-    in settings->touchpad, cancel the select of 'slight touch as press touch', then re-select it.
+  	reset touchpad
+    	in settings->touchpad, cancel the select of 'slight touch as press touch', then re-select it.
