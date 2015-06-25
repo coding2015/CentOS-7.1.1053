@@ -1,0 +1,20 @@
+#!/bin/bash
+#Desciption:
+#	vim tips
+
+$Tips:替换
+	':[range]s/pattern/string/[g/c/etc]'
+		[range]:查找/替换范围
+				'%': 全部
+				'1,$':从第一行到最后一行，同%
+				'n,m':从第n行到第m行
+				'':当前行
+		pattern:被替换的字符
+		string:替换字符
+		[g/c/i/e]:替换方式
+				'g':全部替换
+				'c':逐个询问替换
+				'i':不区分大小写
+				'e':不显示error
+		#eg:
+			:1,$s/Keep/Point/g	#将'Keep'全部替换成'Point'

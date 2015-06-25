@@ -1,0 +1,16 @@
+#!/bin/bash
+#CopyRight(C)2015	megan	all rights reserved
+#Description:
+#	Shell语法笔记
+#History:
+#2015-05-29	megan	first-release
+#
+
+
+@G:condition
+	' [	condition	] '
+		方括号内两边要留出空格，否则语法报错
+		eg:
+			$ [ -d xxx ] #判断xxx是否是目录，或xxx目录是否存在
+				$ echo $? #0为真，1为假
+			$ [ ! -d xxx ] #判断目录是否不存在

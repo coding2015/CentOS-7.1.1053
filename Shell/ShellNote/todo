@@ -1,0 +1,17 @@
+#!/bin/bash
+#待做 @Todo
+#已完成 #Done
+
+
+#Done：改进dailyRun脚本
+	#	a.加入判断：如果日期目录已存在，就不创建，否则创建
+	#	b.再加一一层目录：在日期目录上一级创建年份目录
+	#			期望目录结构：年份/日期/时间 
+	#						～/info/%Y/%m%d/%H%M%S
+
+@Todo：Linux最大能创建的子目录数
+		#测试创建365个子目录是否有问题
+
+@待解：'*.posfix' 用通配符号方式无法找到所有文件
+	# $ find /home/megan/Python/ -name '*.py'
+	# $ ls /home/megan/Python/*.py

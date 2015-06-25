@@ -1,0 +1,38 @@
+#Shell: bash
+#Copyright(C)2015,Megan,all rights reserved
+#Description:
+# 	输出某一范围内的随机数
+#	思路：
+#		将系统随机变量RANDOM([0，32767]）的值范围转换为所求范围  
+#		转换方法：
+#			RANDOM范围[0,Max],所求范围[0,L]
+#			先[0,Max]—>[0.0,0.9]:
+#				[0,Max]/(Max+1) E [0.0,0.9]
+#			再[0.0,0.9]—>[0,L]			
+#				要使[0.0,0.9]*F = [0,L]
+#				应有L=|F*0.9|(取整)
+#			故[0,Max]—>[0,L]:
+#				RANDOM/(Max+1)*F 
+#			eg: L=9时，F应为10才有|10*0.9|=9
+#			eg: L=6时，F应为7才有|7*0.9|=6							
+#History:
+#2015-5-23	megan	first-release
+#2015-5-26	megan	添加注释,优化代码；遗留问题：如何比较两变量数值
+#
+
+#!/bin/bash
+max=9
+#let factor=($max+1)/0.9 #error 0.9为无效操作数
+echo "Random range:0~$Max"
+let factor=$max*10/9
+let temp=$factor*10/9
+if[$temp<$max];then  #error
+	let factor=$factor+1
+fi
+echo "factor:$factor"
+times=10
+for i in `seq $times`
+do
+	declare -i number=$RANDOM*2/32768
+	echo $number
+done

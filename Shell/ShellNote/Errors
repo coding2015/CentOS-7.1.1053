@@ -1,0 +1,28 @@
+#!/bin/bash
+#CopyRight(C)2015	megan	all rights reserved
+#Description:
+#	记录Shell使用要点和错误经验，以便日后参考
+#History:
+#2015-05-28	megan	first-release：$wc找不到文件
+#
+
+@Point；变量名=“xxx”$(cmd) 字符串与命令之间不需“+”号
+	eg:
+	#	$ test="/home/"`date +%y%m%d`
+	#	$ echo $test
+	#	/home/150528
+
+@Point：脚本里"$mkdir dir" 如果出错（目录已存在），将会停止运行脚本
+
+!Error：'$ wc file' 找不到文件 
+	如果file路径信息不完整，在不同路径下运行含有该命令的脚本就会出错：找不到文件	
+	写在脚本里的文件参数需带有完整路径信息
+	eg:输出某一路径下所有文件的字数统计
+		'ls [-t] xxx'输出的信息只有文件名，不带文件路径信息
+			如果将$ls 的输出作为其他其他命令的输入就会出现找不到文件的错误 
+		#	$ls -t /home/megan/Documents/ | xargs wc -lwm
+		#	Error: 找不到文件
+		解决：$find  （目前所知能输出文件完整路径信息的命令）
+			  而且该命令递归遍历所有子目录
+		#  $find /home/megan/Documents/ -type -f | xargs wc -lwm
+	经验：写好的脚本要在其他路径运行成功后才算通过
