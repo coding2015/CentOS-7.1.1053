@@ -1,0 +1,99 @@
+#!/bin/bash
+
+'DiverInstall: NetworkCard diver for Broadcom on CentOS-7.1'
+
+【事件】centos7 系统安装结束后没有wifi入口
+【原因】未装无线网卡驱动
+【解决】确定网卡型号-下载对应驱动包-编译-安装-配置
+【环境】OS：centOS-7.1，硬件:Mac-Pro，无线网卡：Broadcom4311
+
+【具体步骤】
+1、确定网卡型号
+     '# lspci | grep Network'
+     or
+     '# lspci | grep Broadcom' #确定是否为Broadcom类型，以下操作以该类型为前提
+     '# # lspci -n | grep 14e4' #确定Broadcom的机器型号，14e4为Broadcom的pid
+
+2、下载网卡驱动
+     从Broadcom官网下载：http://www.broadcom.com/support/802.11/linux_sta.php
+     注意阅读readme文档，很多问题都可以从文档得解
+
+3、编译驱动包
+     1）确定系统已装相关编译依赖（kernel-devel）
+     		查看 /usr/src/kernels/ 目录，为空的话说明未安装kernel-devel
+        	kernel-devel安装命令：
+        		'yum install kernel-headers kernel-devel gcc'
+					#内核源码会被放到 /usr/src/kernel 下的目录中
+     2）编译驱动包
+   		 建立安装目录
+             [~]'# mkdir -p /usr/local/src/hybrid-wl'
+             [hybrid-wl]'# cd /usr/local/src/hybrid-wl'
+             [hybrid-wl]'# tar xvfz 驱动包本地url'
+             [hybrid-wl]'# chown -R someuser.somegroup /usr/local/src/hybrid-wl'
+         编译
+             [hybrid-wl]'# make clean'
+             [hybrid-wl]'# make'
+         若编译失败，尝试（参照readme文档）：
+             [hybrid-wl]'# make clean'
+             [hybrid-wl]'# make API=CFG80211'    
+
+'''
+注意：编译失败的原因务必要以本地编译结果为准
+			不要一味按网上说的乱改一通，不同系统不同驱动版本编译结果不一样
+2015-05-01下载的驱动包(07/08/2014 )在centOS7.1.1503上报2个错误：
+ (1)赋值类型不兼容
+	'将‘struct wiphy_wowlan_support’赋值给‘const struct wiphy_wowlan_support *’时类型不兼容'
+	解决：wdev->wiphy->wowlan = &wl_wowlan_support;/*fixbug:add'&'*/
+(2)参数个数太少
+	'/*fixbug:too few arguments to cfg80211_ibss_joined,add: &wl->conf->channel*/'
+	解决：cfg80211_ibss_joined(ndev, (u8 *)&wl->bssid,&wl->conf->channel,GFP_KERNEL);
+解决以上2个bug后编译通过
+'''
+    
+3）安装驱动
+	[hybrid-wl]'# make install'
+	#把文件wl.ko复制到/lib/modules/<kernel-version>/kernel/net/wireless 目录
+
+4）驱动配置
+   移除所有其它的BROADCOM无线设备驱动
+    	Broadcom 802.11芯片驱动象b43, bcma和ssb
+		这些驱动和新的驱动是冲突的，故要先把它们移除。
+        (1)确认这些驱动有哪些存在：
+        	'# lsmod  | grep “b43\|ssb\|bcma\|wl'
+        (2)移除存在以上找到的驱动：
+            '# rmmod b43'
+            '# rmmod ssb'
+            '# rmmod bcma'
+            '# rmmod wl'
+        (3)将这些类型驱动配置到黑名单，不让它们被找到
+            '# echo “blacklist b43” >> /etc/modprobe.d/blacklist.conf'
+            '# echo “blacklist ssb” >> /etc/modprobe.d/blacklist.conf'
+            '# echo “blacklist bcma” >> /etc/modprobe.d/blacklist.conf'
+    装入新的驱动
+        '# modprobe lib80211'
+        '# insmod wl.ko'
+    #至此，网络管理中可以看到wifi,可以使用无线网络了；（并不定会出现，后来的重现安装驱动出现的是未找到，但完成以下步骤后重启就有了。
+    添加开机启动
+     	[hybrid-wl]'# cp wl.ko /lib/modules/`uname -r`/kernel/drivers/net/wireless'
+        '# depmod -a'
+        '# echo modeprobe wl >> /etc/rc.local'
+
+
+【相关文档】
+Broadcom驱动包下载：
+         http://www.broadcom.com/support/802.11/linux_sta.php
+Broadcom readme:
+         http://www.broadcom.com/docs/linux_sta/README.txt
+CentOS6.3安装Broadcom无线网卡驱动 :
+         http://blog.csdn.net/jimanyu/article/details/9697833
+CentOS.org官网：
+         http://wiki.centos.org/HowTos/Laptops/Wireless/Broadcom
+        
+
+
+
+    
+    
+
+    
+

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+/var/log/
+
+eg:
+yum.log: 软件安装日志
+boot.log: 启动日志

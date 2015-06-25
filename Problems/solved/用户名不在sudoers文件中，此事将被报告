@@ -1,0 +1,17 @@
+#!/bin/bash
+
+【事件】普通用户下运行sudo时报错
+	eg:
+         '$ sudo yum install openssh*'
+         [sudo] password for megan:
+         megan 不在 sudoers 文件中。此事将被报告。
+
+【解决】在sudoers中添加用户
+		 以root身份进入文件/etc/sudoers  
+		 	'# vim /etc/sudoers'
+				#其他身份对该文件没有读写权限，只有root有读权限
+         在文件中的root下添加
+               root    ALL=(ALL)       ALL
+               用户名   ALL=(ALL)       ALL  #添加
+         强制保存并退出
+                :wq!

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+'GNU'
+
+1、编译hellow
+		 vim 编写hello.c
+		 编译
+				 gcc -c hello.c //生成helloworld.o
+		 链接生成目标文件    
+				 gcc -o hello hello.o //必须目标文件名为不可缺省项
+				 或
+				 gcc hello.o -o hello //目标文件名必须紧跟在-o后面
+				 err: g++ -o main.o main //错误：main：没有那个文件或目录            
+		  运行目标文件：./hello  //”./“表示在bash下执行，不然无法执行
+
+2、Makefile: 将以上编译过程做成脚本，实现编译自动化（一个命令搞定）
+         Makefile:
+                 hello: hello.o
+                         g++ hello.o -o hello
+                 hello.o: hello.c
+                         g++ -c hello.c
+                 clean:
+                         rm hello *.o
+        编译：
+                 $make
+        清理：
+                 $make clean
+
+3、编译cpp文件必须用g++
+        否则找不到C++依赖的库，当源文件中涉及C++无法通过链接
+
+
+4、cpp的main函数的返回类型必须是int型
+        返回值为void型时编译报错
+
+5、<iostream>与<stdio.h>是两种库，互不支持
+        eg: 调用了printf()时必须包含<stdio.h>

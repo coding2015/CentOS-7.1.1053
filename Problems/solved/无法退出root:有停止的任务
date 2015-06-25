@@ -1,0 +1,43 @@
+#!/bin/bash
+
+场景步骤：
+
+     1.$su 登陆root
+     2.安装完geeknote
+     3.geeknote login 登陆失败
+     4.ctrl+z 退出geeknote
+     #exit 时提示有停止的任务。无法退出root
+
+
+原因：
+     第4步：ctrl+z实际上只是把任务转移到了后台，即任务还在只是处在停止的状态
+
+解决：
+     结束停止的任务
+     #jobs
+     [NUM] ...
+     #kill %NUM
+     或
+     #jobs -l
+     ... PID ...
+     #kill PID
+
+RUN：
+[~ 02:25 #145]# exit
+exit
+有停止的任务。
+[~ 02:25 #146]# jobs
+[1]+  已停止               geeknote login(工作目录：/home/megan/Downloads/geeknote)
+[~ 02:27 #147]# kill %1
+[~ 02:27 #148]# jobs
+[1]+  已终止               geeknote login(工作目录：/home/megan/Downloads/geeknote)
+[~ 02:27 #149]# exit
+exit
+[~/geeknote 02:36 #25]$
+
+
+参考：
+     http://sharp2wing.iteye.com/blog/1558252
+
+
+

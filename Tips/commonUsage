@@ -1,0 +1,30 @@
+#!/usr/bin
+
+1、重命名文件/目录
+      rename 原字符串 替换字符串 文件名/目录名
+      eg:
+      更改A目录名为B：rename A B A
+
+2、递归删除目录及其子目录和文件
+      rm -rf 目录名 
+		#-r recursive , 
+		#-f force; 必须是-r否则无法删除，rm本义是删除文件，rmdir删除空目录
+
+3、创建目录及其子目录
+      mkdir -p 目录名/子目录名
+
+4、输入连续命令
+      以；（分号）隔开各命令
+      eg: 创建目录并进入目录
+      $ mkdir recursion; cd recursion
+
+5、查看系统信息
+       查看linux版本号：
+            cat /proc/version
+            或
+            uname -a //uname 输出系统信息
+       查看cpu信息
+            cat /proc/cpuinfo
+       查看cpu当前运行模式 32bit/64bit
+            getconf LONG_BIT
+       

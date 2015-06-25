@@ -1,0 +1,13 @@
+#!/bin/bash
+'''
+查看内核版本
+keyword:
+	kernel version 
+'''
+
+eg:
+# echo `uname -r`
+3.10.0-229.1.2.el7.x86_64
+
+应用：
+     #cp wl.ko /lib/modules/`uname -r`/kernel/drivers/net/wireless

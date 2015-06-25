@@ -1,0 +1,19 @@
+#!/bin/bash
+
+'''
+keyword:
+	touchpad
+	login failed
+
+OS: centos-7.1
+hardware: Mac-Pro
+'''
+
+@2015-06-05 15:00-16:00
+	 $触摸板失灵（键盘等其他正常）
+	 	-'#reboot' 重启，触摸板恢复正常
+	 $但无法登陆 user
+		-登陆'root':文件数据等正常
+		-'#su user' 显示用户不可用  
+		-查看/etc/shells：user的shell：'/sbin/nologin'
+		-将其修改为'/bin/bash'后可以登陆user

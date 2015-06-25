@@ -1,0 +1,79 @@
+#!/bash/bin
+
+'OsInstall: install centOS-7.1 on Mac'
+
+【环境】
+         硬件：Mac MD101CH/A
+         OS： CentOS 7（7.1.1053）
+
+【双系统安装失败】
+		在Yoesmite（OS X 10.10）上，分区（格式为“可用空间”）
+		制作centOS 7启动U盘
+		重启电脑长按“option”进入refit界面
+		选择“windows”（表其他系统）进行centOS安装
+		设定选项后开始安装，安装初始化失败
+
+【最终解决方案】在Mac上通过启动U盘-单系统安装CentOS 7
+
+
+【具体操作】
+>>>『
+【制作启动U盘】
+1、下载镜像文件iso
+		CentOS官网找下载源（ 北京理工大学的镜像源较稳定且速度快）
+		镜像文件：
+			   everything_64
+			   大小：7.1G 
+				（虽然很大但比较妥当，之前ftp下载的只有3G但无法启动安装）
+2、制作启动U盘（在Mac OSX10.10下）
+       1）格式化U盘
+       		磁盘工具->fat方式格式化   
+       2）将iso文件转换为img文件
+            '$hdiutil convert -format UDRW -o xxx.img iso文件路径'
+       3）用“dd”命令复制img文件到U盘
+            '$diskutil list'  #找到U盘所挂载的disk
+            '$diskutil unmountDisk /dev/disk*' #卸载U盘所挂载的disk*
+            '$diskutil sudo dd if=xxx.img.dmg of=/dev/disk* bs=1m' 
+										 #将img文件复制到U盘
+       4）推出U盘（不拔出）
+            第3步复制结束后弹出提示“此电脑不能读取U盘”，选择直接推出
+            或：'$diskutil eject /dev/disk* ' #*为U盘所挂载的disk号
+
+【安装CentOS 7.1.1503】
+1、进入CentOS安装界面
+	   重启电脑，按住“option”键进入系统选择界面
+       选择EFI进入CentOS安装界面
+2、安装前设定（以下列举其中最重要的两项）
+	1) 选择要安装的软体
+    	默认是最小安装 #不带图形界面，图形界面对应软体为KDE，GROME，X-WINDOW等
+        初次安装选择包含了最多软体的工作站/服务器模式
+    2) 分区
+        选择自定义分区
+        标注化分区
+        调整分区, eg:
+			/home  80GiB
+		    /EIF  200MiB
+            /boot  1GiB
+            /     50GiB3
+            swap   4GiB
+            /var    20GiB
+3、安装
+<<<』
+
+
+【相关文档】
+镜像文件下载地址：
+     http://www.centos.org/download/mirrors/
+     http://mirror.bit.edu.cn/centos/7.1.1503/isos/x86_64/
+启动U盘制作：
+     http://www.myiphoneadventure.com/os-x/create-a-bootable-centos-usb-drive-with-a-mac-os-x
+     http://www.izhangheng.com/create-bootable-usb-stick-on-osx-ubuntu-windows
+鸟哥CentOS 7*安装：
+     http://linux.vbird.org/linux_basic/0157installcentos7.php
+
+
+              
+                             
+                   
+
+
