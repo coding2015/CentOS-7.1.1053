@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo
+echo 'pull updates from github>>'
+git pull
+
+echo 
+echo 'check local status>>'
+git status
+echo
